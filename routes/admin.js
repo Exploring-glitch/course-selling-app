@@ -3,9 +3,11 @@ const adminRouter = Router();
 const { adminModel } = require("../db");
 const { z } = require("zod");
 const bcrypt = require("bcrypt");
+const jwt = require ("jsonwebtoken");
+JWT_SECRET = "200531262007";
 
 
-adminRouter.post("/signup", async function(req,res){
+adminRouter.post("/signup", async function(req,res){ //done
     //input validations using zod
     const requiredBody = z.object({ 
         email : z.string().email("Email must be in correct format").max(100).min(5, "Email must contain atleast 5 characters"),
@@ -50,11 +52,28 @@ adminRouter.post("/signin", async function(req,res){
     const email = req.body.email;
     const password = req.body.password;
 
-
-
-    res.json({
-        message: ""
+    const response = await adminModel.findOne({
+        email : email
     })
+    if(!response){
+        return res.status(404).json({
+            message : "Incorrect credentials"
+        })
+    }
+
+    const passCompare = await bcrypt.compare(password, response.password);
+    if(passCompare){
+        const token = jwt.sign({ id : response._id },JWT_SECRET);
+        res.header("adminToken", token);
+        return res.json({
+            token : token
+        })
+    }
+    else{
+        return res.status(404).json({
+            message: "Incorect password"
+        })
+    } 
 })
 
 adminRouter.post("/course", async function(req,res){  //post courses
