@@ -1,17 +1,57 @@
 const { Router } = require("express");
 const adminRouter = Router();
 const { adminModel } = require("../db");
+const { z } = require("zod");
+const bcrypt = require("bcrypt");
 
 
 adminRouter.post("/signup", async function(req,res){
-    //const email = req.body.email;
-    //const password = req.body.password;   
-    res.json({
-        message: "Signed up"
+    //input validations using zod
+    const requiredBody = z.object({ 
+        email : z.string().email("Email must be in correct format").max(100).min(5, "Email must contain atleast 5 characters"),
+        password : z.string().max(100).min(5, "Password must contain atleast 5 characters"),
+        firstName : z.string().max(100).min(3),
+        lastName : z.string().max(100).min(2)
     })
+    const result = requiredBody.safeParse(req.body); 
+    if(!result.success){
+        const error = result.error.errors.map(err => err.message); //extracts the error messages only
+        return res.status(404).json({
+            message: error
+        })
+    }
+    //
+
+    const email = req.body.email;
+    const password = req.body.password;
+    const firstName = req.body.firstName;
+    const lastName = req.body.lastName;
+
+    try{
+        const hashedPass = await bcrypt.hash(password,5);
+        await adminModel.create({
+            email : email,
+            password : hashedPass,
+            firstName : firstName,
+            lastName : lastName
+        })
+        return res.json({
+            message: "Signed up successfully"
+        })
+    }
+    catch(e){
+        return res.status(404).json({
+            message: "User already exists"
+        })
+    }
 })
 
 adminRouter.post("/signin", async function(req,res){
+    const email = req.body.email;
+    const password = req.body.password;
+
+
+
     res.json({
         message: ""
     })
