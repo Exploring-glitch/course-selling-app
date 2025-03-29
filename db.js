@@ -18,11 +18,16 @@ const adminSchema = new Schema({
 })
 
 const courseSchema = new Schema({
-    
+    title : String,
+    description : String,
+    price : Number,
+    imageUrl : String,
+    createrId : ObjectId
 })
 
 const purchaseSchema = new Schema({
-    
+    userId : Object,
+    courseId : ObjectId
 })
 
 userModel = mongoose.model("users", userSchema);

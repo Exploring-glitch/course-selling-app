@@ -8,7 +8,7 @@ const { userRouter } = require("./routes/user");
 const { adminRouter} = require("./routes/admin")
 const { courseRouter } = require("./routes/course");
 
-app.use("/user", userRouter);
+app.use("/user", userRouter); //for http://.../user/.. start userRouter
 app.use("/admin", adminRouter);
 app.use("/course", courseRouter);
 
