@@ -4,7 +4,7 @@ const { adminModel } = require("../db");
 const { z } = require("zod");
 const bcrypt = require("bcrypt");
 const jwt = require ("jsonwebtoken");
-JWT_SECRET = "200531262007";
+JWT_ADMIN_SECRET = "200531262007";
 
 
 adminRouter.post("/signup", async function(req,res){ //done
@@ -24,10 +24,7 @@ adminRouter.post("/signup", async function(req,res){ //done
     }
     //
 
-    const email = req.body.email;
-    const password = req.body.password;
-    const firstName = req.body.firstName;
-    const lastName = req.body.lastName;
+    const { email, password, firstName, lastName } = req.body;
 
     try{
         const hashedPass = await bcrypt.hash(password,5);
@@ -48,9 +45,8 @@ adminRouter.post("/signup", async function(req,res){ //done
     }
 })
 
-adminRouter.post("/signin", async function(req,res){
-    const email = req.body.email;
-    const password = req.body.password;
+adminRouter.post("/signin", async function(req,res){ //donei
+    const { email, password } = req.body;
 
     const response = await adminModel.findOne({
         email : email
@@ -63,7 +59,7 @@ adminRouter.post("/signin", async function(req,res){
 
     const passCompare = await bcrypt.compare(password, response.password);
     if(passCompare){
-        const token = jwt.sign({ id : response._id },JWT_SECRET);
+        const token = jwt.sign({ id : response._id },JWT_ADMIN_SECRET);
         res.header("adminToken", token);
         return res.json({
             token : token
