@@ -36,9 +36,9 @@ userRouter.post("/signup", async function(req,res){ //done
         })
     }
     catch(e){
-            return res.status(404).json({
-                message: "User already exists"
-            })
+        return res.status(404).json({
+            message: "User already exists"
+        })
     }
     
 })

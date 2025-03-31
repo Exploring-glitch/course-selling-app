@@ -16,7 +16,7 @@ app.use("/course", courseRouter);
 
 async function main(){
     try{
-        await mongoose.connect("mongodb+srv://admin:mu9wbw2g8TBgJBVx@cluster0.tgsxo.mongodb.net/course-selling-app-database");
+        await mongoose.connect("");
         console.log("Connected to mongoose");
         app.listen(3000);
     } 

@@ -1,10 +1,11 @@
 const { Router } = require("express");
 const adminRouter = Router();
-const { adminModel } = require("../db");
+const { adminModel, courseModel } = require("../db");
 const { z } = require("zod");
 const bcrypt = require("bcrypt");
 const jwt = require ("jsonwebtoken");
 const { JWT_ADMIN_SECRET } = require("../config");
+const { adminMiddleware } = require("../middlewares/admin");
 
 
 adminRouter.post("/signup", async function(req,res){ //done
@@ -45,7 +46,7 @@ adminRouter.post("/signup", async function(req,res){ //done
     }
 })
 
-adminRouter.post("/signin", async function(req,res){ //donei
+adminRouter.post("/signin", async function(req,res){ //done
     const { email, password } = req.body;
 
     const response = await adminModel.findOne({
@@ -72,8 +73,25 @@ adminRouter.post("/signin", async function(req,res){ //donei
     } 
 })
 
-adminRouter.post("/course", async function(req,res){  //post courses
-
+adminRouter.post("/createcourse", adminMiddleware, async function(req,res){  //post courses
+    const { title, description, imageUrl, price } = req.body;
+    try{
+        await courseModel.create({
+            title : title,
+            description : description,
+            price : price,
+            imageUrl : imageUrl,
+            createrId : Adminid
+        })
+        return res.json({
+            message: "Course created successfully"
+        })
+    }
+    catch(e){
+        res.status(404).json({
+            message: "Failed to create course"
+        })
+    }
 })
 
 adminRouter.put("/course", async function(req,res){  //update courses
