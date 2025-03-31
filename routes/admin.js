@@ -4,7 +4,7 @@ const { adminModel } = require("../db");
 const { z } = require("zod");
 const bcrypt = require("bcrypt");
 const jwt = require ("jsonwebtoken");
-JWT_ADMIN_SECRET = "200531262007";
+const { JWT_ADMIN_SECRET } = require("../config");
 
 
 adminRouter.post("/signup", async function(req,res){ //done

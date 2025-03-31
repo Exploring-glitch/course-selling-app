@@ -1,11 +1,10 @@
 const { Router } = require("express");
 const userRouter = Router();
 const { userModel } = require("../db");
-const { z } = require("zod"); //input validations
-const bcrypt = require("bcrypt"); //password hashing and compare
+const { z } = require("zod"); 
+const bcrypt = require("bcrypt"); 
 const jwt = require ("jsonwebtoken");
-JWT_USER_SECRET = "12096hello74578";
-
+const { JWT_USER_SECRET } = require("../config");
 
 userRouter.post("/signup", async function(req,res){ //done
     //input validations using zod
