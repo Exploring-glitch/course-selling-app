@@ -13,7 +13,7 @@ function adminMiddleware(req,res,next){
         const decodedData = jwt.verify(token, JWT_ADMIN_SECRET);
         const decodedId = decodedData.id;
         if(decodedId){
-            req.Userid = decodedId;
+            req.Adminid = decodedId;
             next();
         }
     }
