@@ -5,6 +5,8 @@ const { z } = require("zod");
 const bcrypt = require("bcrypt"); 
 const jwt = require ("jsonwebtoken");
 const { JWT_USER_SECRET } = require("../config");
+const { userMiddleware } = require("../middlewares/user");
+const { purchaseModel } = require("../db");
 
 userRouter.post("/signup", async function(req,res){ //done
     //input validations using zod
@@ -69,8 +71,14 @@ userRouter.post("/signin", async function(req,res){ //done
     } 
 })
 
-userRouter.get("/purchases" , async function(req,res){ //to see the purchased courses
-
+userRouter.get("/viewpurchases" ,userMiddleware ,async function(req,res){ //done
+    const userId = req.Userid;
+    const purchases = await(purchaseModel.find({
+        userId : userId
+    }));
+    res.json({
+        purchases
+    })
 })
 
 module.exports ={

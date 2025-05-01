@@ -6,7 +6,7 @@ const bcrypt = require("bcrypt");
 const jwt = require ("jsonwebtoken");
 const { JWT_ADMIN_SECRET } = require("../config");
 const { adminMiddleware } = require("../middlewares/admin");
-const course = require("./course");
+
 
 
 adminRouter.post("/signup", async function(req,res){ //done

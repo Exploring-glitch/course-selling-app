@@ -4,7 +4,7 @@ const jwt = require("jsonwebtoken");
 
 function userMiddleware(req,res,next){
     try{
-        const token = req.header["userToken"];
+        const token = req.headers.token;
         if(!token){
             return res.status(404).json({
                 message: "No token provided"
