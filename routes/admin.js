@@ -74,16 +74,16 @@ adminRouter.post("/signin", async function(req,res){ //done
     } 
 })
 
-adminRouter.post("/createcourse", adminMiddleware, async function(req,res){  //post courses
-    const creatorid = req.userid;
+adminRouter.post("/createcourse", adminMiddleware, async function(req,res){  //done
+    const creatorId = req.userid;
     const { title, description, imageUrl, price } = req.body;    
     try{
-        await courseModel.create({
+        const course = await courseModel.create({
             title : title,
             description : description,
             price : price,
             imageUrl : imageUrl,
-            createrId : creatorid
+            creatorId : creatorId
         })
         return res.json({
             message: "Course created successfully",
@@ -97,12 +97,45 @@ adminRouter.post("/createcourse", adminMiddleware, async function(req,res){  //p
     }
 })
 
-adminRouter.put("/course", async function(req,res){  //update courses
-
+adminRouter.put("/updatecourse", adminMiddleware, async function(req,res){  //done
+    const creatorId = req.userid;
+    const { title, description, imageUrl, price, courseid } = req.body;    
+    try{
+        const course = await courseModel.updateOne({
+            _id : courseid, //update course whose course id is this
+            creatorId : creatorId //update course if the admin id is this
+        },{
+            title : title,
+            description : description,
+            price : price,
+            imageUrl : imageUrl,
+        })
+        return res.json({
+            message: "Course updated successfully"
+        })
+    }
+    catch(e){
+        res.status(404).json({
+            message: "Failed to update course"
+        })
+    }
 })
 
-adminRouter.get("/course", async function(req,res){  //see the created courses
-
+adminRouter.get("/viewcourse", adminMiddleware, async function(req,res){  //done
+    const creatorId = req.userid;
+    try{
+        const courses = await courseModel.find({
+            creatorId : creatorId 
+        });
+        return res.json({
+            courses: courses
+        })
+    }
+    catch(e){
+        res.status(404).json({
+            message: "Failed to fetch course"
+        })
+    }
 })
     
 
