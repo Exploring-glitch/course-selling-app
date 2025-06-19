@@ -1,4 +1,6 @@
 const mongoose = require("mongoose");
+const { type } = require("os");
+const { ref } = require("process");
 const Schema = mongoose.Schema;
 const ObjectId = mongoose.ObjectId; 
 
@@ -7,7 +9,7 @@ const userSchema = new Schema({
     email : { type: String, unique: true},
     password : String,
     firstName : String,
-    lastName : String
+    lastName : String,
 })
 
 const adminSchema = new Schema({
