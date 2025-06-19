@@ -73,7 +73,7 @@ userRouter.post("/signin", async function(req,res){ //done
 
 userRouter.get("/viewpurchases" ,userMiddleware ,async function(req,res){ //done
     const userId = req.Userid;
-    const purchases = await purchaseModel.find({
+    const purchases = await purchaseModel.find({ 
         userId : userId
     })
     const coursedata = await courseModel.find({ //to get the purchased course data
