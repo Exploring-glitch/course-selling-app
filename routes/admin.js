@@ -76,7 +76,7 @@ adminRouter.post("/signin", async function(req,res){ //done
 
 adminRouter.post("/createcourse", adminMiddleware, async function(req,res){  //done
     const creatorId = req.userid;
-    const { title, description, imageUrl, price } = req.body;    
+    const { title, description, price, imageUrl } = req.body;    
     try{
         const course = await courseModel.create({
             title : title,
@@ -99,7 +99,7 @@ adminRouter.post("/createcourse", adminMiddleware, async function(req,res){  //d
 
 adminRouter.put("/updatecourse", adminMiddleware, async function(req,res){  //done
     const creatorId = req.userid;
-    const { title, description, imageUrl, price, courseid } = req.body;    
+    const { title, description, price, imageUrl, courseid } = req.body;    
     try{
         const course = await courseModel.updateOne({
             _id : courseid, //update course whose course id is this

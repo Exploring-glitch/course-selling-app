@@ -30,10 +30,10 @@ const purchaseSchema = new Schema({
     userId : ObjectId
 })
 
-userModel = mongoose.model("users", userSchema);
-adminModel = mongoose.model("admins", adminSchema);
-courseModel = mongoose.model("courses", courseSchema);
-purchaseModel = mongoose.model("purchases", purchaseSchema);
+const userModel = mongoose.model("users", userSchema);
+const adminModel = mongoose.model("admins", adminSchema);
+const courseModel = mongoose.model("courses", courseSchema);
+const purchaseModel = mongoose.model("purchases", purchaseSchema);
 
 module.exports = {
     userModel,

@@ -12,7 +12,6 @@ courseRouter.get("/viewcourses", async function(req,res){ //done
 
 courseRouter.post("/purchase", userMiddleware, async function(req,res){ //done
     const userId = req.Userid;
-    console.log(userId);
     const courseId = req.body.courseid;
     try{
         await purchaseModel.create({
